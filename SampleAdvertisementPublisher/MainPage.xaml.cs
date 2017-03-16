@@ -36,13 +36,24 @@ namespace SampleAdvertisementPublisher
             //Initialize
             publisher = new BluetoothLEAdvertisementPublisher();
             var manufacturerData = new BluetoothLEManufacturerData();
-            manufacturerData.CompanyId = 0xFFFE;
+            manufacturerData.CompanyId = 0x004c;
+            byte[] dataArray = new byte[] {
+                // お決まり
+                0x02, 0x15,
+                // UUID
+                0x93, 0xBE, 0xB3, 0xD9,
+                0x31, 0x60, 0x4B, 0xB9,
+                0xB5, 0xB0, 0xB7, 0xB1,
+                0xF6, 0x14, 0x15, 0xD8,
+                // Major
+                0x01, 0x00,
+                // Minor
+                0x00, 0x01,
+                // TX power
+                0xc5
+            };
 
-            var writer = new DataWriter();
-            writer.WriteUInt64(0x1234567812345678);
-
-            manufacturerData.Data = writer.DetachBuffer();
-
+            manufacturerData.Data = dataArray.AsBuffer();
             publisher.Advertisement.ManufacturerData.Add(manufacturerData);
 
             publisher?.Start();
